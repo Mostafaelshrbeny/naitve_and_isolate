@@ -39,7 +39,8 @@ class IntergartionFunctions {
   }
 
   static Future<void> openNativeScreen() async {
-    await MethodChannel('com.example/native').invokeMethod('openNativeScreen');
+    await MethodChannel('com.example/native')
+        .invokeMethod('openNativeScreen', {"message": "Hello from flutter"});
   }
 
   static heavyFunction() async {

@@ -1,13 +1,17 @@
 import 'dart:developer';
 import 'dart:isolate';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gif/gif.dart';
+import 'package:isolation_and_naitve/new_flutter_screen.dart';
 import 'package:isolation_and_naitve/sensor_view.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  final route = PlatformDispatcher.instance.defaultRouteName;
+  runApp(MyApp(
+    route: route,
+  ));
   /*
   بسم الله 
   isolate
@@ -24,13 +28,23 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  const MyApp({super.key, required this.route});
+  final String route;
   @override
   Widget build(BuildContext context) {
+    // if (route == "/profile") {
+    //   home = NewFlutterScreen();
+    // } else {
+    //   home = const MyHomePage(title: 'Flutter Demo Home Page');
+    // }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+      initialRoute: route,
+      routes: {
+        '/': (_) => const MyHomePage(title: 'Flutter Demo Home Page'),
+        '/profile': (_) => NewFlutterScreen(),
+      },
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         canvasColor: Colors.blue,
@@ -38,7 +52,7 @@ class MyApp extends StatelessWidget {
             FloatingActionButtonThemeData(backgroundColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: home,
     );
   }
 }

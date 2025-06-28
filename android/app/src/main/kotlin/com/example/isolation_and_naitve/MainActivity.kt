@@ -76,8 +76,12 @@ class MainActivity : FlutterActivity(), SensorEventListener {
 MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.example/native")
     .setMethodCallHandler { call, result ->
         if (call.method == "openNativeScreen") {
+            val args = call.arguments as? Map<String, Any>
+            val message = args?.get("message") as? String ?: "No data"
             val intent = Intent(this, NaitveView::class.java)
+            intent.putExtra("message", message)
             startActivity(intent)
+            
             result.success(null)
         } else {
             result.notImplemented()
